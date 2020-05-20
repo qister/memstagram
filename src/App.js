@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import './App.css';
-import { Context } from './context.js';
 import Slider from './Slider';
 import './index.css';
+import Memes from './Memes';
 
 // const memes = [1,2,3,4,5]
 
 const memes = [
+  {
+    id: 0,
+    liked: false,
+  },
   {
     id: 1,
     liked: false,
@@ -23,10 +27,6 @@ const memes = [
     id: 4,
     liked: false,
   },
-  {
-    id: 5,
-    liked: false,
-  },
 ]
 
 function App() {
@@ -36,11 +36,11 @@ function App() {
   const [localMemes, setLocalMemes] = useState(memes)
   
   function incrementIndex() {
-    setIndex(i => i + 1)
+    setIndex(index < localMemes.length -1 ? index + 1 : index)
   }
 
   function decrementIndex() {
-    setIndex(i => i - 1)
+    setIndex(index > 0 ? index - 1 : index)
   }
 
   function like(id) {
@@ -53,31 +53,29 @@ function App() {
     }))
   }
 
-  function likeButtonColor() {
-    return localMemes.find(meme => meme.id === index).liked ? 'red' : 'black'
-  }
+  // function likeButtonColor() {
+  //   return localMemes.find(meme => meme.id === index).liked ? 'red' : 'black'
+  // }
 
   function likeButtonText() {
     return localMemes.find(meme => meme.id === index).liked ? '🧡' : '🖤'
   }
 
   return (
-    <Context.Provider value={{like}}>
       <div> 
-        <button onClick={decrementIndex}>предыдущий</button>
-        <button onClick={incrementIndex}>следующий</button>
-        <Slider 
+        <button onClick={decrementIndex}>◀</button>
+        <button onClick={incrementIndex}>▶</button>
+        <Memes 
           id={index}
         />
         <button 
           onClick={() => like(index)}
-          style={{color: likeButtonColor()}}
+          // style={{color: likeButtonColor()}}
           className='like'
         >
           {likeButtonText()}
         </button>
       </div>
-    </Context.Provider>
   );
 }
 
