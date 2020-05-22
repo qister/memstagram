@@ -6,11 +6,14 @@ export default function Modal() {
     const [isOpen, setIsOpen] = useState(true)
 
     const {setLogin} = useContext(Context)
+    const {hasUser} = useContext(Context)
     
     const login = (e, name) => {
         e.preventDefault()
-        setLogin(name)
-        setIsOpen(false)
+        if (hasUser(name)) {
+            setLogin(name)
+            setIsOpen(false)
+        }
     }
 
     return (
@@ -24,14 +27,26 @@ export default function Modal() {
                         <tbody>
                             <tr>
                                 <td><label >Логин</label></td>
-                                <td><input id="loginField" type="text" name="login"/></td>
+                                <td><input 
+                                    id="loginField" 
+                                    type="text" 
+                                    name="login" 
+                                    placeholder='guest' 
+                                /></td>
                             </tr>
                             <tr>
                                 <td><label >Пароль</label></td>
-                                <td><input id="passwordField" type="password" name="password"/></td>
+                                <td><input 
+                                    id="passwordField" 
+                                    type="password" 
+                                    name="password"
+                                /></td>
                             </tr>
                             <tr>
-                                <td ><input type="submit" value="Войти"/></td>
+                                <td ><input 
+                                    type="submit" 
+                                    value="Войти"
+                                /></td>
                             </tr>
                         </tbody>
                     </table>

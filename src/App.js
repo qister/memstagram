@@ -36,12 +36,41 @@ const memes = [
   },
 ]
 
+const registeredUsers = [
+  {
+    id: 0,
+    name: 'guest',
+    totalLikes: 0
+  },
+  {
+    id: 1,
+    name: 'Elon',
+    totalLikes: 0
+  },
+  {
+    id: 2,
+    name: 'XXX',
+    totalLikes: 0
+  },
+  {
+    id: 3,
+    name: 'Qister',
+    totalLikes: 0
+  },
+]
+
 function App() {
 
   
   const [index, setIndex] = useState(2)
   const [localMemes, setLocalMemes] = useState(memes)
   const [login, setLogin] = useState('guest')
+
+  const [users, setUsers] = useState(registeredUsers)
+
+  function hasUser(name) {
+    return users.some(user => user.name === name)
+  }  
   
   function incrementIndex() {
     setIndex(index < localMemes.length -1 ? index + 1 : index)
@@ -70,7 +99,7 @@ function App() {
   }
 
   return (
-    <Context.Provider value={{like, setLogin}}>
+    <Context.Provider value={{like, setLogin, hasUser}}>
       <div>
         <Modal/>
         <div>you are logged in as {login}</div>
