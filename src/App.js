@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import Slider from './Slider';
 import './index.css';
 import Memes from './Memes';
 import Modal from './Modal/Modal'
 import Context from './context'
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import * as loadMemesActions from './Actions/loadMemesActions'
 
 // const memes = [1,2,3,4,5]
 
@@ -59,9 +62,14 @@ const registeredUsers = [
   },
 ]
 
-function App() {
-
+function App(props) {
   
+  // useEffect(() => {
+  //   // props.actions.loadMemeList()
+  //   console.log('useEffect')
+  //   return
+  // })
+
   const [index, setIndex] = useState(2)
   const [localMemes, setLocalMemes] = useState(memes)
   const [login, setLogin] = useState('guest')
@@ -81,7 +89,6 @@ function App() {
   }
 
   function like(id) {
-    console.log(id);
     setLocalMemes(localMemes.map(meme => {
         if (meme.id === id) {
           meme.liked = !meme.liked
@@ -122,4 +129,19 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+      isLoading: state.memeList.isLoading,
+      isLoaded: state.memeList.isLoaded,
+      data: state.memeList.data,
+      error: state.memeList.error
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      actions: bindActionCreators(loadMemesActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
