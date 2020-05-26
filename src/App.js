@@ -57,6 +57,11 @@ const registeredUsers = [
     name: 'Qister',
     totalLikes: 0
   },
+  {
+    id: 4,
+    name: 'Qister',
+    totalLikes: 0
+  },
 ]
 
 function App() {
