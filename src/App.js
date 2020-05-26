@@ -64,17 +64,18 @@ const registeredUsers = [
 
 function App(props) {
   
-  // useEffect(() => {
-  //   // props.actions.loadMemeList()
-  //   console.log('useEffect')
-  //   return
-  // })
+
 
   const [index, setIndex] = useState(2)
   const [localMemes, setLocalMemes] = useState(memes)
   const [login, setLogin] = useState('guest')
 
   const [users, setUsers] = useState(registeredUsers)
+
+  useEffect(() => {
+    props.actions.loadMemeList()
+    console.log('Props', props)
+  }, [index])
 
   function hasUser(name) {
     return users.some(user => user.name === name)
