@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './App.css';
-import Slider from './Slider';
 import './index.css';
 import Memes from './Memes';
 import Modal from './Modal/Modal'
