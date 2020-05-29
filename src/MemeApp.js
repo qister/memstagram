@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Provider, connect } from 'react-redux';
 import { store } from './Store/Meme/actions.mjs';
-import List_ from './Components/List'
 import Meme_ from './Components/Meme'
-import like from './Store/Meme/actions'
+// import like from './Store/Meme/actions.js'
+import {addMeme, like} from './Store/Meme/actions.js'
 
 
 // function List_({ list }) {
@@ -21,7 +21,14 @@ import like from './Store/Meme/actions'
 //     list: state,
 // }))(List_)
 
-const state = store.getState()
+// const like = (id) => {
+//   return {
+//     type: 'LIKE_ID',
+//     payload: id
+//   }
+// };
+
+
 
 function mapStateToProps(state) {
   return {list: state}
@@ -30,6 +37,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     tapLike: (id) => dispatch(like(id)),
+    newMeme: (meme) => dispatch(addMeme(meme))
   }
 }
 
@@ -41,26 +49,25 @@ const Meme = connect(mapStateToProps, mapDispatchToProps)(Meme_)
 
 export default function App() {
 
-  const [index, setIndex] = useState(2)
+  // const [index, setIndex] = useState(2)  
 
-  console.log(state);
-  
+  // function incrementIndex() {
+  //   setIndex(index < state.length -1 ? index + 1 : index)
+  // }
 
-  function incrementIndex() {
-    setIndex(index < state.length -1 ? index + 1 : index)
-  }
-
-  function decrementIndex() {
-    setIndex(index > 0 ? index - 1 : index)
-  }
+  // function decrementIndex() {
+  //   setIndex(index > 0 ? index - 1 : index)
+  // }
 
   return (
     <Provider store={store}>
-      <div>
-        <button onClick={decrementIndex}>◀</button>
-        <button onClick={incrementIndex}>▶</button>
-        <Meme id={index}/> 
+      <div className='container'>
+        <div className='app'>
+        {/* <button onClick={decrementIndex}>◀</button>
+        <button onClick={incrementIndex}>▶</button> */}
+        <Meme /> 
         {/* <List /> */}
+        </div>
       </div>
     </Provider>
   )

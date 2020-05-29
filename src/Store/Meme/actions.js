@@ -1,7 +1,5 @@
-import redux from 'redux';
+import { createStore } from 'redux';
 import reducer from './reducers.js';
-
-const { createStore } = redux;
 
 const initialState = [
     {
@@ -44,7 +42,7 @@ const initialState = [
 
 export const store = createStore(reducer, initialState);
 
-export function like(id) {
+export const like = (id) => {
   return {
     type: 'LIKE_ID',
     payload: id
