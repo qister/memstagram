@@ -4,6 +4,7 @@ import { store } from './Store/Meme/actions.mjs';
 import Meme_ from './Components/Meme'
 // import like from './Store/Meme/actions.js'
 import {addMeme, like} from './Store/Meme/actions.js'
+import Checkout from './Components/Form/Checkout'
 
 
 // function List_({ list }) {
@@ -60,15 +61,15 @@ export default function App() {
   // }
 
   return (
-    <Provider store={store}>
+
+    <Checkout/>
+
+    /* <Provider store={store}>
       <div className='container'>
         <div className='app'>
-        {/* <button onClick={decrementIndex}>◀</button>
-        <button onClick={incrementIndex}>▶</button> */}
         <Meme /> 
-        {/* <List /> */}
         </div>
       </div>
-    </Provider>
+    </Provider> */
   )
 }
