@@ -7,25 +7,46 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardActions from '@material-ui/core/CardActions';
+import IconButton from '@material-ui/core/IconButton';
+import { red } from '@material-ui/core/colors';
+import ShareIcon from '@material-ui/icons/Share';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
-
-
-//Стилизация материал
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    maxWidth: 445,
+
+    // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     border: 0,
     borderRadius: 3,
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: 'white',
-    height: 48,
+    // color: 'white',
+    // height: 48,
     padding: '0 30px',
   },
-
-
-  
-});
+  media: {
+    height: 400,
+    // paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+}));
 
 //
 
@@ -39,6 +60,8 @@ export default function MemeMaterial_(props) {
     
     let {list} = props
     let {tapLike, newMeme} = props
+    console.log(list);
+    
 
     function incrementIndex() {
       setIndex(index < list.length -1 ? index + 1 : index)
@@ -50,10 +73,6 @@ export default function MemeMaterial_(props) {
     
     const currentMeme = list.find(meme => meme.id === id)
 
-    const likeButtonText = () => {
-        return currentMeme.liked ? '🧡' : '🖤'
-    }
-
     const bestMeme = {
         id: 5,
         liked: true,
@@ -62,6 +81,7 @@ export default function MemeMaterial_(props) {
 
     return (
       <React.Fragment>
+
           <Box display='flex' justifyContent='space-between'>
             <span className='top-element'>
               <ArrowBackIcon onClick={decrementIndex}/>
@@ -72,29 +92,49 @@ export default function MemeMaterial_(props) {
               </Button>
           </Box>
 
-          <Card className={classes.root}>
-            <CardHeader
-              avatar={
-                <Avatar>{currentMeme.author}</Avatar> 
-              }
-              title='Elon Musk'
-            />
-          </Card>
-          
-              
-            
-            
-            
-    
-          <div className='meme'>
-              <img className='big' src={`/memes/${id}.jpg`} alt={""} />
+    <Card className={classes.root}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="avatar test" className={classes.avatar}>
+            {currentMeme.author}
+          </Avatar>
+        }
+        action={
+          <IconButton aria-label="add meme" onClick={() => newMeme(bestMeme)}>
+              <Button variant="outlined" color='secondary' size='small'>
+                      subscribe
+              </Button>
+          </IconButton>
+        }
+        title={currentMeme.author}
+      />
+      <CardMedia
+        title="Paella dish"
+      >
+        <div className='meme'>
+              <img 
+                className='big' 
+                src={`/memes/${id}.jpg`} 
+                alt={""}
+                onDoubleClick={() => tapLike(id)} 
+              />
           </div>
-          <button 
-              onClick={() => tapLike(id)}
-              className='like'
-              >
-              {likeButtonText()}
-          </button>
+      </CardMedia>
+
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites" onClick={() => tapLike(id)}>
+            <FormControlLabel
+            checked={currentMeme.liked}
+            control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />}
+            
+            />
+        </IconButton>
+        <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton>
+        
+      </CardActions>
+    </Card>
       </React.Fragment>
     )
   }

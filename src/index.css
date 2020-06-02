@@ -47,8 +47,8 @@ body {
 .meme {
   border: 0 solid rgb(255, 0, 0);
   border-radius: 1%;
-  background-color: rgb(139, 139, 139);
-  height: 30rem; /* Высота области */
+  background-color: rgba(139, 139, 139, 0.1);
+  height: 25rem; /* Высота области */
   margin: 0; /* Обнуляем отступы */
 }
 
