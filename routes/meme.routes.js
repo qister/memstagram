@@ -4,7 +4,6 @@ const router = Router()
 const multer = require('multer')
 
 
-
 router.get('/', async(req, res) => {
     try {
         const meme = await Meme.find({author: 'James'})
@@ -47,29 +46,49 @@ const storage = multer.diskStorage({
 
 var upload = multer({ storage: storage }).single('file')
 
-router.post('/addpic',function(req, res) {
+let id = 8
+
+router.post('/addpic', (req, res) => {
      
-    upload(req, res, function (err) {
+    upload(req, res, async (err) => {
+
             if (err instanceof multer.MulterError) {
                 return res.status(500).json(err)
             } else if (err) {
                 return res.status(500).json(err)
             }
-        console.log(req.file.filename);
+
         const body = JSON.stringify(req.body, null, 2)
-        const body2 = JSON.parse(body)
+        const trueBody = JSON.parse(body)
 
-        console.log(body2.author);
-        
-        
+        const meme = new Meme({
+            id: id++,
+            author: trueBody.author,
+            description: trueBody.description,
+            imgUrl: req.file.path,
+            liked: false,
+            created: Date.now()
+        })
 
-        
-        
+        await meme.save()
+    
         return res.status(200).send(req.file)
 
     })
 
 });
+
+router.get('/show', async(req, res) => {
+    console.log(req.query.id);
+    
+    try {
+        const meme = await Meme.find({author: 'James'})
+        res.status(200).json(meme)
+    }  catch(e) {
+        console.log('Error: ', e.message);
+        
+    }
+})
 
 
 // router.post('/addpic', async (req, res) => {

@@ -1,4 +1,4 @@
-import React, { useState, createRef } from 'react'
+import React, { useState } from 'react'
 import {useHttp} from '../hooks/http.hook'
 import axios from 'axios'
 
@@ -43,6 +43,8 @@ export const AddPage = () => {
     //     }
     // }
     const [selectedFile, setSelectedFile] = useState(null)
+    const [description, setDescription] = useState(null)
+    
     const [loaded, setLoaded] = useState(null)
 
     const onChangeHandler = event => {
@@ -54,6 +56,7 @@ export const AddPage = () => {
         const data = new FormData()
         data.append('file', selectedFile)
         data.append('author', author)
+        data.append('description', description)
         console.log(data);
         let response = await axios.post("/api/meme/addpic", data, { 
             // receive two    parameter endpoint url ,form data
@@ -61,6 +64,8 @@ export const AddPage = () => {
                 'Content-Type': 'multipart/form-data'
             }
         })
+        console.log(response);
+        
     }
 
     return (
@@ -69,7 +74,15 @@ export const AddPage = () => {
             id="author" 
             type="text" 
             className="validate"
+            placeholder="author"
             onChange={e => setAuthor(e.target.value)}
+        />
+        <input
+            id="description" 
+            type="text" 
+            className="validate"
+            placeholder="description"
+            onChange={e => setDescription(e.target.value)}
         />
 
         <input type="file" name="file" onChange={onChangeHandler}/>

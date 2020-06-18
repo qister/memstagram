@@ -3,7 +3,10 @@ const {Schema, model} = require('mongoose')
 const memeSchema = new Schema({
     id: Number,
     author: String,
-    liked: Boolean
+    description: String,
+    imgUrl: String,
+    liked: Boolean,
+    created: Date
   }
 );
 
