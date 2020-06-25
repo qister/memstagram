@@ -1,11 +1,9 @@
 const express = require('express')
-const path = require('path')
 
 const mongoose = require('mongoose')
 const config = require('config')
 const Meme = require('./models/Meme')
 const app = express()
-const bodyParser = require('body-parser')
 
 const PORT = config.get('port') || 5000
 const URI = config.get('mongoUri')
@@ -14,6 +12,7 @@ app.use(express.json({extended: true}))
 // app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/api/meme', require('./routes/meme.routes'))
+app.use(express.static('public'));
 
 
 async function start() {

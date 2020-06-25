@@ -6,7 +6,8 @@ const memeSchema = new Schema({
     description: String,
     imgUrl: String,
     liked: Boolean,
-    created: Date
+    created: Date,
+    likedBy: Array,
   }
 );
 

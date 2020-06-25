@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -6,20 +6,60 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { Provider, connect } from 'react-redux';
 import MemeMaterial_ from './MemeMaterial'
-import {addMeme, like, store} from '../actions/actions'
+import {addMeme, like, initMemes} from '../actions/actions.mjs'
+import axios from 'axios';
+
+import { applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk'
+import reducer from '../reducers/reducer';
+
+
+const initialState = 
+    [
+      {
+        id: 0,
+        liked: false,
+        author: 'MAMAM',
+      },
+      {
+        id: 1,
+        liked: false,
+        author: 'Bill',
+      },
+      {
+        id: 2,
+        liked: false,
+        author: 'Elon',
+      },
+      {
+        id: 3,
+        liked: false,
+        author: 'Jack',
+      },
+      {
+        id: 4,
+        liked: false,
+        author: 'Bill',
+      },
+    ]
+
+const store = createStore(reducer, initialState, applyMiddleware(thunk));
+
 
 function mapStateToProps(state) {
+
   return {list: state}
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     tapLike: (id) => dispatch(like(id)),
-    newMeme: (meme) => dispatch(addMeme(meme))
+    newMeme: (meme) => dispatch(addMeme(meme)),
+    loadMemes: () => dispatch(initMemes())
   }
 }
 
-export const Meme = connect(mapStateToProps, mapDispatchToProps)(MemeMaterial_)
+const Meme = connect(mapStateToProps, mapDispatchToProps)(MemeMaterial_)
 
 function Copyright() {
   return (
@@ -69,8 +109,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Main() {
-  const classes = useStyles();
-
+  const classes = useStyles()
+  
   return (
     <Provider store={store}>
     <React.Fragment>

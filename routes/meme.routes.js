@@ -36,7 +36,7 @@ router.post('/add', async (req, res) => {
 const storage = multer.diskStorage({
     
     destination: function (req, file, cb) {
-    cb(null, 'memes')
+    cb(null, 'public/images')
     },
 
     filename: function (req, file, cb) {
@@ -46,7 +46,7 @@ const storage = multer.diskStorage({
 
 var upload = multer({ storage: storage }).single('file')
 
-let id = 8
+let id = 10
 
 router.post('/addpic', (req, res) => {
      
@@ -82,12 +82,31 @@ router.get('/show', async(req, res) => {
     console.log(req.query.id);
     
     try {
-        const meme = await Meme.find({author: 'James'})
+        const meme = await Meme.find({id: req.query.id})
+        console.log(meme);
+        
         res.status(200).json(meme)
+        // console.log(res);
+        
     }  catch(e) {
         console.log('Error: ', e.message);
         
     }
+})
+
+router.get('/getlist', async(req, res) => {
+    console.log(req)
+
+    try {
+        const allMemes = await Meme.find({})
+        console.log(allMemes)
+        res.status(200).json(allMemes)
+        
+    }  catch(e) {
+        console.log('Error', e.message);
+        
+    }
+    
 })
 
 

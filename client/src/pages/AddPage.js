@@ -42,6 +42,7 @@ export const AddPage = () => {
             
     //     }
     // }
+    
     const [selectedFile, setSelectedFile] = useState(null)
     const [description, setDescription] = useState(null)
     
@@ -64,8 +65,7 @@ export const AddPage = () => {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        console.log(response);
-        
+        console.log(response) 
     }
 
     return (

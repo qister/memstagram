@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -16,6 +16,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,23 +55,60 @@ export default function MemeMaterial_(props) {
 
     const classes = useStyles();
 
-    const [index, setIndex] = useState(2) 
+    const [id, setId] = useState(2) 
+    const [author, setAuthor] = useState('')
+    const [description, setDescription] = useState('')
+    const [imgUrl, setImgUrl] = useState('') 
+    const [liked, setLiked] = useState()
+    const [created, setCreated] = useState()
+    const [loadedList, setLoadedList] = useState([])
 
-    let id = index
-    
+
+
     let {list} = props
-    let {tapLike, newMeme} = props
+    let {tapLike, newMeme, loadMemes} = props
+
+    useEffect( () => {
+      loadMemes()
+    }, [id])
+    console.log('List: ', list);
+    
+    // const currentMeme = list.find(meme => meme.id === id)
+
+    useEffect( () => {
+      const getData = async () => {
+        try {
+          const response = await axios.get('/api/meme/show', {
+            params: {
+                id: id
+              }
+          });
+
+          setAuthor(response.data[0].author)
+          setDescription(response.data[0].description)
+          setImgUrl('http://localhost:5000/' + response.data[0].imgUrl.slice(7))
+          setLiked(response.data[0].liked)
+          setCreated(response.data[0].created)
+
+        } catch (error) {
+          console.error('lalaal: ', error);
+        }
+      }
+      getData()
+    }, [id])
+
+    
+
     
 
     function incrementIndex() {
-      setIndex(index < list.length -1 ? index + 1 : index)
+      setId(id < list.length -1 ? id + 1 : id)
     }
   
     function decrementIndex() {
-      setIndex(index > 0 ? index - 1 : index)
+      setId(id > 0 ? id - 1 : id)
     }
     
-    const currentMeme = list.find(meme => meme.id === id)
 
     const bestMeme = {
         id: 5,
@@ -95,7 +133,7 @@ export default function MemeMaterial_(props) {
       <CardHeader
         avatar={
           <Avatar aria-label="avatar test" className={classes.avatar}>
-            {currentMeme.author}
+            {author}
           </Avatar>
         }
         action={
@@ -104,13 +142,13 @@ export default function MemeMaterial_(props) {
                 variant="outlined" 
                 color='secondary' 
                 size='small'
-                onClick={() => newMeme(bestMeme)}
+                onClick={() => loadMemes()}
                 >
-                subscribe
+                Load Memes
               </Button>
 
         }
-        title={currentMeme.author}
+        title={author}
       />
       <CardMedia
         title="Paella dish"
@@ -118,7 +156,7 @@ export default function MemeMaterial_(props) {
         <div className='meme'>
               <img 
                 className='big' 
-                src={`/memes/${id}.jpg`} 
+                src={imgUrl} 
                 alt={""}
                 onDoubleClick={() => tapLike(id)} 
               />
@@ -128,7 +166,7 @@ export default function MemeMaterial_(props) {
       <CardActions disableSpacing>
 
         <FormControlLabel 
-          checked={currentMeme.liked} 
+          checked={liked} 
           onChange={() => tapLike(id)}
           control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} name="checkedH"/>}
         />
