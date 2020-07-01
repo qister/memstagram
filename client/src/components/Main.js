@@ -14,52 +14,52 @@ import thunk from 'redux-thunk'
 import reducer from '../reducers/reducer';
 
 
-const initialState = 
-    [
-      {
-        id: 0,
-        liked: false,
-        author: 'MAMAM',
-      },
-      {
-        id: 1,
-        liked: false,
-        author: 'Bill',
-      },
-      {
-        id: 2,
-        liked: false,
-        author: 'Elon',
-      },
-      {
-        id: 3,
-        liked: false,
-        author: 'Jack',
-      },
-      {
-        id: 4,
-        liked: false,
-        author: 'Bill',
-      },
-    ]
+// const initialState = 
+//     [
+//       {
+//         id: 0,
+//         liked: false,
+//         author: 'MAMAM',
+//       },
+//       {
+//         id: 1,
+//         liked: false,
+//         author: 'Bill',
+//       },
+//       {
+//         id: 2,
+//         liked: false,
+//         author: 'Elon',
+//       },
+//       {
+//         id: 3,
+//         liked: false,
+//         author: 'Jack',
+//       },
+//       {
+//         id: 4,
+//         liked: false,
+//         author: 'Bill',
+//       },
+//     ]
 
-const store = createStore(reducer, initialState, applyMiddleware(thunk));
+// const store = createStore(reducer, initialState, applyMiddleware(thunk));
 
 
-function mapStateToProps(state) {
+// function mapStateToProps(state) {
 
-  return {list: state}
-}
+//   return {list: state}
+// }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    tapLike: (id) => dispatch(like(id)),
-    newMeme: (meme) => dispatch(addMeme(meme)),
-    loadMemes: () => dispatch(initMemes())
-  }
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     tapLike: (id) => dispatch(like(id)),
+//     newMeme: (meme) => dispatch(addMeme(meme)),
+//     loadMemes: () => dispatch(initMemes())
+//   }
+// }
 
-const Meme = connect(mapStateToProps, mapDispatchToProps)(MemeMaterial_)
+// const Meme = connect(mapStateToProps, mapDispatchToProps)(MemeMaterial_)
 
 function Copyright() {
   return (
@@ -108,20 +108,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Main() {
+export default function Main_(props) {
   const classes = useStyles()
+  const start = 1
+
+  console.log('Main props', props);
+
+  const {list, loadMemes, newMeme, tapLike} = props
+
+  useEffect( () => {
+    loadMemes()
+  }, [])
   
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
     <React.Fragment>
       <CssBaseline />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-            <Meme /> 
+            <MemeMaterial_ list={list}/> 
         </Paper>
         <Copyright />
       </main>
     </React.Fragment>
-    </Provider>
+    // </Provider>
   );
 }

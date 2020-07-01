@@ -5,43 +5,6 @@ import axios from 'axios'
 export const AddPage = () => {
 
     const [author, setAuthor] = useState('')
-
-    // const { request, dataRequest } = useHttp()
-
-    // const pressHandler = async event => {
-    //     if (event.key === 'Enter') {
-    //         try {
-    //             const data = await request('/api/meme/add', 'POST', {author: author})
-    //             console.log(data);
-                
-    //         } catch(e) {
-
-    //         }
-    //     }
-    // }
-
-    // const submitHandler = async event => {
-    //     event.preventDefault()
-
-    //     const data = new FormData()
-  
-    //     console.log(data);
-        
-
-    //     try {
-    //         let response = await fetch('/api/meme/addpic', {
-    //             method: 'POST',
-    //             body: data
-    //         });
-        
-    //         let result = await response.json();
-        
-    //         console.log(result.message);
-    //     }   catch(e) {
-    //         console.log(e.message);
-            
-    //     }
-    // }
     
     const [selectedFile, setSelectedFile] = useState(null)
     const [description, setDescription] = useState(null)
@@ -58,7 +21,6 @@ export const AddPage = () => {
         data.append('file', selectedFile)
         data.append('author', author)
         data.append('description', description)
-        console.log(data);
         let response = await axios.post("/api/meme/addpic", data, { 
             // receive two    parameter endpoint url ,form data
             headers: {

@@ -63,38 +63,22 @@ export default function MemeMaterial_(props) {
     const [created, setCreated] = useState()
     const [loadedList, setLoadedList] = useState([])
 
-
-
     let {list} = props
-    let {tapLike, newMeme, loadMemes} = props
-
-    useEffect( () => {
-      loadMemes()
-    }, [id])
-    console.log('List: ', list);
     
-    // const currentMeme = list.find(meme => meme.id === id)
+    let {tapLike, newMeme, loadMemes} = props
+    
+    const currentMeme = list.find(meme => meme.id === id)
+    console.log(currentMeme);
+    
 
     useEffect( () => {
-      const getData = async () => {
-        try {
-          const response = await axios.get('/api/meme/show', {
-            params: {
-                id: id
-              }
-          });
-
-          setAuthor(response.data[0].author)
-          setDescription(response.data[0].description)
-          setImgUrl('http://localhost:5000/' + response.data[0].imgUrl.slice(7))
-          setLiked(response.data[0].liked)
-          setCreated(response.data[0].created)
-
-        } catch (error) {
-          console.error('lalaal: ', error);
-        }
+      if (currentMeme) {
+        setAuthor(currentMeme.author)
+        setDescription(currentMeme.description)
+        setImgUrl('http://localhost:5000/' + currentMeme.imgUrl.slice(7))
+        setLiked(currentMeme.liked)
+        setCreated(currentMeme.created)
       }
-      getData()
     }, [id])
 
     
