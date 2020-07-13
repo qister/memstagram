@@ -1,130 +1,67 @@
-import redux from 'redux';
-import reducer from '../reducers/reducer';
 import axios from 'axios'
-// import { axiosListMeme } from '../api/getListMeme'
+import { getMemes } from '../API/memesAPI'
 
-// const { createStore } = redux;
+export const LIKE_ID = 'LIKE_ID'
+export const ADD_MEME = 'ADD_MEME'
+export const LOAD_INITIAL_MEMES = 'LOAD_INITIAL_MEMES'
+export const GET_USER = 'GET_USER'
 
-// const initialState = 
-//     [
-//       {
-//         id: 0,
-//         liked: false,
-//         author: 'MAMAM',
-//       },
-//       {
-//         id: 1,
-//         liked: false,
-//         author: 'Bill',
-//       },
-//       {
-//         id: 2,
-//         liked: false,
-//         author: 'Elon',
-//       },
-//       {
-//         id: 3,
-//         liked: false,
-//         author: 'Jack',
-//       },
-//       {
-//         id: 4,
-//         liked: false,
-//         author: 'Bill',
-//       },
-//     ]
-
-// let allMemes;
-
-// const tempState = async () => {
-//   try {
-//     allMemes = await axios.get('/api/meme/getlist', {
-//       params: {
-          
-//         }
-//     })
-//   }  catch(e) {
-//     console.log(e.message);
-    
-//   }
-// }
-
-// getListMemeAction = (data) => {
-//   return {
-//     type: 'GET_LIST',
-//     payload: data
-//   }
-// }
-
-// export default getListMem = () => {
-//   axiosListMeme()
-//     .then(data => getListMemeAction(data))
-// }
-
-// tempState()
-
-
-// export const store = createStore(reducer, initialState);
-
+export const MEMES_IS_LOADING = 'MEMES_IS_LOADING'
+export const MEMES_IS_LOADED = 'MEMES_IS_LOADED'
+export const MEMES_IS_FAIL = 'MEMES_IS_FAIL'
+export const GET_USER_EMAIL = 'GET_USER_EMAIL'
 
 export function like(id) {
   return {
-    type: 'LIKE_ID',
+    type: LIKE_ID,
     payload: id
   }
 };
 
 export function addMeme(meme) {
   return {
-    type: 'ADD_MEME',
+    type: ADD_MEME,
     payload: meme,
   }
 }
 
-export function initMemes() {
-  return async function(dispatch) {
-
-      const allMemes = await axios.get('/api/meme/getlist', {
-        params: {
-          
-          } 
-      })
-      
-      dispatch({
-        type: 'LOAD_INITIAL_MEMES',
-        payload: allMemes.data,
-      })
+export const memesIsLoading = () => {
+  return {
+    type: MEMES_IS_LOADING
   }
 }
 
+export const memesIsLoaded = (data) => {
+  return {
+    type: MEMES_IS_LOADED,
+    payload: data
+  }
+}
 
+export const memesIsFail = (error) => {
+  return {
+    type: MEMES_IS_FAIL,
+    payload: error
+  }
+}
 
-// const addMeme = (meme) => {
-//   return {
-//     type: "ADD_MEME",
-//     payload: meme,
-//   };
-// };
+export function initMemes() {
+  return async function (dispatch) {
+    dispatch(memesIsLoading())
+      await getMemes()
+        .then(data => dispatch(memesIsLoaded(data)))
+        .catch(error => dispatch(memesIsFail(error)))
+  }
+}
 
-// store.dispatch(addMeme({
-//   id: 6,
-//   liked: false,
-//   author: 'Max',
-// }));
+export function getUser() {
+  return{
+    type: GET_USER
+  }
+}
 
-// store.dispatch({
-//     type: "ADD_MEME",
-//     payload: {
-//         id: 7,
-//         liked: true,
-//         author: 'Max',
-//     },
-// })
-
-// store.dispatch({
-//     type: "DELETE_ID",
-//     payload: 6,
-// })
-
-
-// console.log(store.getState());
+export function getUserEmail() {
+  return {
+    type: GET_USER_EMAIL
+  }
+}

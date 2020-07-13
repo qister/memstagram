@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -8,10 +8,12 @@ import { Provider, connect } from 'react-redux';
 import MemeMaterial_ from './MemeMaterial'
 import {addMeme, like, initMemes} from '../actions/actions.mjs'
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
 
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk'
 import reducer from '../reducers/reducer';
+import { AuthContext } from '../context/AuthContext'
 
 
 // const initialState = 
@@ -109,28 +111,48 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Main_(props) {
+
+  const [currentUser, setCurrentUser] = useState('')
   const classes = useStyles()
-  const start = 1
+  const [email, setEmail] = useState('')
+  const auth = useContext(AuthContext)
 
-  console.log('Main props', props);
 
-  const {list, loadMemes, newMeme, tapLike} = props
+  const {list, loadMemes, newMeme, tapLike, getUser} = props
 
   useEffect( () => {
+    console.log('render')
     loadMemes()
+    // setEmail(JSON.parse(localStorage.getItem('userData')).email)
+    // console.log(email);
+    // setCurrentUser(getUser())
   }, [])
   
   return (
-    // <Provider store={store}>
+
     <React.Fragment>
       <CssBaseline />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-            <MemeMaterial_ list={list}/> 
+
+          <Button 
+            variant="contained"
+            onClick={() => getUser()}
+            >
+            Get user
+          </Button>
+
+          <Button 
+            variant="contained"
+            onClick={() => auth.logout()}
+            >
+            logout
+          </Button>
+
+          <MemeMaterial_ list={list} /> 
         </Paper>
         <Copyright />
       </main>
     </React.Fragment>
-    // </Provider>
   );
 }

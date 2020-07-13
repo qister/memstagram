@@ -63,13 +63,14 @@ export default function MemeMaterial_(props) {
     const [created, setCreated] = useState()
     const [loadedList, setLoadedList] = useState([])
 
+
+
     let {list} = props
-    
-    let {tapLike, newMeme, loadMemes} = props
+
+    let newMeme = 1
+    let tapLike = 2
     
     const currentMeme = list.find(meme => meme.id === id)
-    console.log(currentMeme);
-    
 
     useEffect( () => {
       if (currentMeme) {
@@ -80,9 +81,6 @@ export default function MemeMaterial_(props) {
         setCreated(currentMeme.created)
       }
     }, [id])
-
-    
-
     
 
     function incrementIndex() {
@@ -126,9 +124,9 @@ export default function MemeMaterial_(props) {
                 variant="outlined" 
                 color='secondary' 
                 size='small'
-                onClick={() => loadMemes()}
+                // onClick={() => getUser()}
                 >
-                Load Memes
+                Get User
               </Button>
 
         }

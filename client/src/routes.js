@@ -4,12 +4,13 @@ import { MainPage } from './pages/MainPage'
 import { AddPage } from './pages/AddPage'
 import { ShowPage } from './pages/ShowPage'
 import { AuthPage } from './pages/AuthPage'
+import {AuthContainer} from './containers/AuthContainer'
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
       <Switch>
-          <Route path="/main" exact>
+          <Route path="/" exact>
               <MainPage />
           </Route>
           <Route path="/add" exact>
@@ -18,7 +19,7 @@ export const useRoutes = (isAuthenticated) => {
           <Route path="/show" exact>
               <ShowPage />
           </Route>    
-          <Redirect to="/main"/>
+          <Redirect to="/"/>
       </Switch>
     )
   }
@@ -26,7 +27,7 @@ export const useRoutes = (isAuthenticated) => {
   return (
     <Switch>
       <Route path="/">
-        <AuthPage />
+        <AuthContainer />
       </Route>
       <Redirect to="/"/>
     </Switch>

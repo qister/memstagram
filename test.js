@@ -1,12 +1,18 @@
-import axios from 'axios'
+function makeArmy() {
+  let shooters = [];
 
-const getData = async () => {
+  let i = 0;
+  while (i < 10) {
+    let shooter = function() { // функция shooter
+      alert( i ); // должна выводить порядковый номер
+    };
+    shooters.push(shooter);
+    i++;
+  }
 
-    const response = await axios.get('/api/meme/show', {
-    params: {
-        id: id
-        }
-    })
-    return response
+  return String(shooters);
 }
-console.log(getData())
+
+let army = makeArmy();
+
+console.log(army);

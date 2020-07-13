@@ -1,31 +1,49 @@
-import { createStore } from 'redux';
-import axios from 'axios'
+import {
+  MEMES_IS_LOADING,
+  MEMES_IS_LOADED,
+  MEMES_IS_FAIL,
+  GET_USER,
+} from '../actions/actions';
 
-// const initialState = []
+const initialState = {
+  currentUser: "",
+  data: [],
+  isLoading: false,
+  isLoaded: false,
+  error: null,
+};
 
-// export const store = createStore(reducer, initialState);
+export default function reducer(state = initialState, action) {
+  console.log("State: ", state);
 
-export default function reducer(state, action) {
-
-    if (action.type === "ADD_MEME") {
-
-        return [...state, action.payload]
-    }
-    if (action.type === "DELETE_ID") {
-        return state.filter(meme => meme.id !== action.payload)
-    }
-    if (action.type === "LIKE_ID") {
-        
-        return state.map(meme => meme.id === action.payload ? {...meme, liked: !meme.liked}: meme)
-    }
-    if (action.type = 'LOAD_INITIAL_MEMES') {  
-        if (action.payload) {
-            return action.payload
-        } else {
-            return state
-        }  
-        // return state
+  switch (action.type) {
+    case MEMES_IS_LOADING: {
+      return { ...state, isLoading: true };
     }
 
-    return state;
+    case MEMES_IS_LOADED: {
+      return {
+        ...state,
+        isLoading: false,
+        isLoaded: true,
+        data: action.payload,
+      };
+    }
+
+    case MEMES_IS_FAIL: {
+      return {
+        ...state,
+        isLoaded: false,
+        isLoading: false,
+        error: action.error,
+      };
+    }
+
+    case GET_USER: {
+      return state;
+    }
+
+    default:
+      return state;
+  }
 }

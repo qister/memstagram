@@ -2,35 +2,6 @@ import { createStore } from 'redux';
 import reducer from '../reducers/reducer';
 import axios from 'axios'
 
-
-// const initialState = [
-//     {
-//       id: 0,
-//       liked: true,
-//       author: 'Elon',
-//     },
-//     {
-//       id: 1,
-//       liked: false,
-//       author: 'Bill',
-//     },
-//     {
-//       id: 2,
-//       liked: false,
-//       author: 'Elon',
-//     },
-//     {
-//       id: 3,
-//       liked: false,
-//       author: 'Jack',
-//     },
-//     {
-//       id: 4,
-//       liked: false,
-//       author: 'Bill',
-//     },
-// ]
-
 const initialState = []
 
 let allMemes;
