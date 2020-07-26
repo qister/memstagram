@@ -4,6 +4,8 @@ import axios from 'axios'
 
 export const AddPage = () => {
 
+    // const {loading, request, error, clearError} = useHttp()
+
     const [author, setAuthor] = useState('')
     
     const [selectedFile, setSelectedFile] = useState(null)
@@ -21,13 +23,19 @@ export const AddPage = () => {
         data.append('file', selectedFile)
         data.append('author', author)
         data.append('description', description)
+
+        // const fetchResponse = await request("/api/meme/addpic", "POST", data, {
+        //   "Content-Type": "multipart/form-data",
+        // })
+
         let response = await axios.post("/api/meme/addpic", data, { 
             // receive two    parameter endpoint url ,form data
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        console.log(response) 
+        console.log('axiosResponse', response)
+        // console.log('fetchResponse', fetchResponse)
     }
 
     return (

@@ -5,6 +5,8 @@ import { AuthContext } from '../context/AuthContext'
 
 
 export const AuthPage = (props) => {
+  let {setCurrentUser} = props
+  console.log('Props', props);
 
   const auth = useContext(AuthContext)
 
@@ -22,16 +24,19 @@ export const AuthPage = (props) => {
   const registerHandler = async () => {
     try {
       const data = await request('/api/auth/register', 'POST', {...form})
-
     } catch(e) {
     }
   }
 
   const loginHandler = async () => {
     try {
-      //const data = await request('/api/auth/login', 'POST', {...form})
-      //auth.login(data.token, data.userId, data.email)
-      props.authLoginAction({...form})
+      const data = await request('/api/auth/login', 'POST', {...form})
+      if (data.token) {
+        auth.login(data.token, data.userId, data.email)
+        setCurrentUser(data.email)
+
+      // props.authLoginAction({...form})
+      }
     } catch(e) {
     }
   }

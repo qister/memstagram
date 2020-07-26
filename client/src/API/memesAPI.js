@@ -18,6 +18,16 @@ export const getMemes = () => {
       })
 }
 
+export const likeMeme = (id) => {
+  return axios.post('/api/meme/getlist', {
+    meme: id
+  })
+    .then(response => console.log(response))
+    .catch(error => {
+      throw new Error(error)
+    })
+}
+
 export const authLoginAxios = (credentials) => {
   console.log('authLoginAxios credentials', credentials);
   const instance = axios.create(config)

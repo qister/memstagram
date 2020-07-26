@@ -1,8 +1,9 @@
 import {
-  MEMES_IS_LOADING,
-  MEMES_IS_LOADED,
-  MEMES_IS_FAIL,
+  MEMES_ARE_LOADING,
+  MEMES_LOADED,
+  MEMES_LOAD_FAILED,
   GET_USER,
+  SET_CURRENT_USER,
 } from '../actions/actions';
 
 const initialState = {
@@ -13,15 +14,15 @@ const initialState = {
   error: null,
 };
 
-export default function reducer(state = initialState, action) {
+export const reducer = (state = initialState, action) => {
   console.log("State: ", state);
 
   switch (action.type) {
-    case MEMES_IS_LOADING: {
+    case MEMES_ARE_LOADING: {
       return { ...state, isLoading: true };
     }
 
-    case MEMES_IS_LOADED: {
+    case MEMES_LOADED: {
       return {
         ...state,
         isLoading: false,
@@ -30,7 +31,7 @@ export default function reducer(state = initialState, action) {
       };
     }
 
-    case MEMES_IS_FAIL: {
+    case MEMES_LOAD_FAILED: {
       return {
         ...state,
         isLoaded: false,
@@ -39,8 +40,18 @@ export default function reducer(state = initialState, action) {
       };
     }
 
+    case SET_CURRENT_USER: {
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    }
+
     case GET_USER: {
-      return state;
+      return { 
+        ...state, 
+        currentUser: action.payload 
+      };
     }
 
     default:

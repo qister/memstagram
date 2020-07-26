@@ -20,9 +20,21 @@ export const ShowPage = () => {
         }
       }
 
+      const likeMeme = async () => {
+        try {
+          const response = await axios.post('/api/meme/likememe', {
+            firstName: 'Fred',
+            lastName: 'Flintstone',
+          })
+        } catch(e) {
+          console.error(e);
+        }
+      }
+
       return (
         <React.Fragment>
           <button type="button" className="btn btn-success btn-block" onClick={getUser}>Upload</button> 
+          <button type="button" className="btn btn-success btn-block" onClick={likeMeme}>Like Meme</button> 
           <img src={imgUrl} alt="альтернативный текст" />
         </React.Fragment>
       )

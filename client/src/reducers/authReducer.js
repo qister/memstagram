@@ -1,58 +1,52 @@
 import {
-  AUTH_IS_COMPLETE,
-  AUTH_IS_START,
-  AUTH_IS_FAIL,
-  IS_LOGIN,
+  AUTH_COMPLETED,
+  AUTH_STARTED,
+  AUTH_FAILED,
+  LOGGED_IN,
 } from '../actions/AuthActions';
 
 const initialState = {
   authData: {},
-  authIsStart: false,
-  authIsComplete: false,
-  authIsFail: null,
-  isLogin: false
+  authStarted: false,
+  authCompleted: false,
+  authFailed: null,
+  loggedIn: false
 };
 
-export default function reducer(state = initialState, action) {
+export const authReducer = (state = initialState, action) => {
   console.log("State: ", state);
 
   switch (action.type) {
-    case AUTH_IS_START: {
-      return { ...state, authIsStart: true };
+    case AUTH_STARTED: {
+      return { ...state, authStarted: true };
     }
 
-    case AUTH_IS_COMPLETE: {
+    case AUTH_COMPLETED: {
       return {
         ...state,
-        authIsStart: false,
-        authIsComplete: true,
+        authStarted: false,
+        authCompleted: true,
         authData: action.payload,
       };
     }
 
-    case AUTH_IS_FAIL: {
+    case AUTH_FAILED: {
       return {
         ...state,
-        authIsStart: false,
-        authIsComplete: false,
-        authIsFail: action.error,
+        authStarted: false,
+        authCompleted: false,
+        authFailed: action.error,
       };
     }
 
-    case IS_LOGIN: {
-      localStorage.setItem(
-        'userData',
-        JSON.stringify({
-          userId: state.authData.id,
-          token: state.authData.jwtToken,
-          email: state.authData.userEmail,
-        })
-      );
+    case LOGGED_IN: {
       return {
         ...state,
-        isLogin: true,
+        loggedIn: true,
       };
     }
+
+
 
     default:
       return state;

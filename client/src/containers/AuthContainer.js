@@ -2,16 +2,18 @@ import React from 'react'
 import { AuthPage } from '../pages/AuthPage'
 import { connect } from 'react-redux'
 import { authLogin } from '../actions/AuthActions'
+import { setCurrentUser } from '../actions/actions.mjs'
 
 const mapStateToProps = state => {
   return {
-    authIsStart: state.authorization.authIsStart
+    authStarted: state.authorization.authStarted
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    authLoginAction: (credentials) => dispatch(authLogin(credentials))
+    authLoginAction: (credentials) => dispatch(authLogin(credentials)),
+    setCurrentUser: (username) => dispatch(setCurrentUser(username))
   }
 }
 

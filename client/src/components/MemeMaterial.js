@@ -16,7 +16,33 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import axios from 'axios'
+
+
+
+
+// import AppBar from '@material-ui/core/AppBar';
+// import Toolbar from '@material-ui/core/Toolbar';
+// import Typography from '@material-ui/core/Typography';
+
+// import MenuIcon from '@material-ui/icons/Menu';
+// import AccountCircle from '@material-ui/icons/AccountCircle';
+// import Switch from '@material-ui/core/Switch';
+
+// import FormGroup from '@material-ui/core/FormGroup';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import Menu from '@material-ui/core/Menu';
+
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     flexGrow: 1,
+//   },
+//   menuButton: {
+//     marginRight: theme.spacing(2),
+//   },
+//   title: {
+//     flexGrow: 1,
+//   },
+// }));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,6 +74,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
 }));
+
+
 
 //
 
@@ -100,65 +128,51 @@ export default function MemeMaterial_(props) {
 
     return (
       <React.Fragment>
+        <Box display="flex" justifyContent="space-between">
+          <span className="top-element">
+            <ArrowBackIcon onClick={decrementIndex} />
+            <ArrowForwardIcon onClick={incrementIndex} />
+          </span>
+        </Box>
 
-          <Box display='flex' justifyContent='space-between'>
-            <span className='top-element'>
-              <ArrowBackIcon onClick={decrementIndex}/>
-              <ArrowForwardIcon onClick={incrementIndex}/>
-            </span>
-              <Button variant="outlined" color='secondary' size='small' onClick={() => newMeme(bestMeme)}>
-                      add meme
-              </Button>
-          </Box>
-
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="avatar test" className={classes.avatar}>
-            {author}
-          </Avatar>
-        }
-        action={
-
-              <Button 
-                variant="outlined" 
-                color='secondary' 
-                size='small'
-                // onClick={() => getUser()}
-                >
-                Get User
-              </Button>
-
-        }
-        title={author}
-      />
-      <CardMedia
-        title="Paella dish"
-      >
-        <div className='meme'>
-              <img 
-                className='big' 
-                src={imgUrl} 
+        <Card className={classes.root}>
+          <CardHeader
+            avatar={
+              <Avatar aria-label="avatar test" className={classes.avatar}>
+                {author}
+              </Avatar>
+            }
+            title={author}
+          />
+          <CardMedia title="Paella dish">
+            <div className="meme">
+              <img
+                className="big"
+                src={imgUrl}
                 alt={""}
-                onDoubleClick={() => tapLike(id)} 
+                onDoubleClick={() => tapLike(id)}
               />
-          </div>
-      </CardMedia>
+            </div>
+          </CardMedia>
 
-      <CardActions disableSpacing>
+          <CardActions disableSpacing>
+            <FormControlLabel
+              checked={liked}
+              onChange={() => tapLike(id)}
+              control={
+                <Checkbox
+                  icon={<FavoriteBorder />}
+                  checkedIcon={<Favorite />}
+                  name="checkedH"
+                />
+              }
+            />
 
-        <FormControlLabel 
-          checked={liked} 
-          onChange={() => tapLike(id)}
-          control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} name="checkedH"/>}
-        />
-
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        
-      </CardActions>
-    </Card>
+            <IconButton aria-label="share">
+              <ShareIcon />
+            </IconButton>
+          </CardActions>
+        </Card>
       </React.Fragment>
-    )
+    );
   }
