@@ -4,7 +4,8 @@ import {
   MEMES_LOAD_FAILED,
   GET_USER,
   SET_CURRENT_USER,
-} from '../actions/actions';
+  LIKE_ID,
+} from "../actions/actions";
 
 const initialState = {
   currentUser: "",
@@ -48,13 +49,35 @@ export const reducer = (state = initialState, action) => {
     }
 
     case GET_USER: {
-      return { 
-        ...state, 
-        currentUser: action.payload 
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    }
+
+    case LIKE_ID: {
+      console.log("State: ", state);
+
+      const currentUser = JSON.parse(localStorage.getItem("userData")).email;
+
+      return {
+        ...state,
+        data: state.data.map((meme) => {
+          if (meme.id === action.payload) {
+            return {
+              ...meme,
+              likedBy: meme.likedBy.some((user) => user === currentUser)
+                ? meme.likedBy.filter((user) => user !== currentUser)
+                : meme.likedBy.push(currentUser),
+            }
+          } else {
+            return meme
+          }
+        }),
       };
     }
 
     default:
       return state;
   }
-}
+};

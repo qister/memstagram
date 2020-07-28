@@ -95,10 +95,16 @@ router.get("/getlist", async (req, res) => {
 
 router.post("/likememe", async (req, res) => {
   try {
-    console.log('meme to like: ', req.body);
-    
-
-    res.status(201).json(null);
+    console.log('meme to like: ', req.body)
+    const {id, email} = req.body
+    const memeBefore = await Meme.findOne({id: id})
+    if (memeBefore.likedBy.some(user => user === email)) {
+      await Meme.updateOne({id: id}, {likedBy: memeBefore.likedBy.filter(user => user !== email)})
+      res.status(201).json(`Meme with id ${id} was disliked`)
+    } else {
+      await Meme.updateOne({id: id}, {likedBy: [...memeBefore.likedBy, email]})
+      res.status(201).json(`Meme with id ${id} was liked`)
+    }
   } catch (e) {
     console.log("Error", e.message);
   }

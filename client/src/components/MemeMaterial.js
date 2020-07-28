@@ -17,33 +17,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
-
-
-
-// import AppBar from '@material-ui/core/AppBar';
-// import Toolbar from '@material-ui/core/Toolbar';
-// import Typography from '@material-ui/core/Typography';
-
-// import MenuIcon from '@material-ui/icons/Menu';
-// import AccountCircle from '@material-ui/icons/AccountCircle';
-// import Switch from '@material-ui/core/Switch';
-
-// import FormGroup from '@material-ui/core/FormGroup';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import Menu from '@material-ui/core/Menu';
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     flexGrow: 1,
-//   },
-//   menuButton: {
-//     marginRight: theme.spacing(2),
-//   },
-//   title: {
-//     flexGrow: 1,
-//   },
-// }));
-
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 445,
@@ -83,30 +56,35 @@ export default function MemeMaterial_(props) {
 
     const classes = useStyles();
 
-    const [id, setId] = useState(2) 
+    const [id, setId] = useState(0) 
     const [author, setAuthor] = useState('')
     const [description, setDescription] = useState('')
     const [imgUrl, setImgUrl] = useState('') 
-    const [liked, setLiked] = useState()
+    const [liked, setLiked] = useState(null)
     const [created, setCreated] = useState()
     const [loadedList, setLoadedList] = useState([])
 
 
 
-    let {list} = props
+    let {list, like} = props
 
-    let newMeme = 1
-    let tapLike = 2
-    
-    const currentMeme = list.find(meme => meme.id === id)
+    const tapLike = (id) => {
+      setLiked(!liked)
+      like(id)
+    }
 
     useEffect( () => {
+      const currentMeme = list.find(meme => meme.id === id)
       if (currentMeme) {
+
+        const email = JSON.parse(localStorage.getItem('userData')).email
+
         setAuthor(currentMeme.author)
         setDescription(currentMeme.description)
         setImgUrl('http://localhost:5000/' + currentMeme.imgUrl.slice(7))
-        setLiked(currentMeme.liked)
+        setLiked(currentMeme.likedBy.some(user => user === email))
         setCreated(currentMeme.created)
+        console.log('currentMeme LikedBy', currentMeme.likedBy);
       }
     }, [id])
     
@@ -118,13 +96,6 @@ export default function MemeMaterial_(props) {
     function decrementIndex() {
       setId(id > 0 ? id - 1 : id)
     }
-    
-
-    const bestMeme = {
-        id: 5,
-        liked: true,
-        author: 'Best Meme Author',
-      } 
 
     return (
       <React.Fragment>
@@ -144,7 +115,7 @@ export default function MemeMaterial_(props) {
             }
             title={author}
           />
-          <CardMedia title="Paella dish">
+          <CardMedia title="Meme">
             <div className="meme">
               <img
                 className="big"

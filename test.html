@@ -7,22 +7,9 @@
   </head>
   <body>
     <script>
-      function makeArmy() {
-        let shooters = [];
-
-        for (let i = 0; i < 10; i++) {
-          let shooter = function () {
-            return i
-          };
-          shooters.push(shooter)
-        }
-
-        return shooters;
-      }
-
-      let army = makeArmy();
-
-      console.log(army[2]());
+      const user = localStorage.setItem('userUser', JSON.stringify({user: 'dick'}))
+      const got = JSON.parse(localStorage.getItem('userUser')).user
+      console.log(got);
     </script>
   </body>
 </html>

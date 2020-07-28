@@ -49,9 +49,17 @@ export const initMemes = () => {
   }
 }
 
+export const addLiked = (id) => {
+  return {
+    type: LIKE_ID,
+    payload: id
+  }
+}
+
 export function like(id) {
   return async (dispatch) => {
-    await dispatch(likeMeme(id))
+    await likeMeme(id)
+    dispatch(addLiked(id))
   }
 }
 

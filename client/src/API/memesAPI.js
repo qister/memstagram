@@ -19,8 +19,9 @@ export const getMemes = () => {
 }
 
 export const likeMeme = (id) => {
-  return axios.post('/api/meme/getlist', {
-    meme: id
+  return axios.post('/api/meme/likememe', {
+    id: id,
+    email: JSON.parse(localStorage.getItem('userData')).email
   })
     .then(response => console.log(response))
     .catch(error => {

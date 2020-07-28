@@ -13,6 +13,7 @@ app.use(express.json({extended: true}))
 
 app.use('/api/meme', require('./routes/meme.routes'))
 app.use('/api/auth', require('./routes/auth.routes'))
+
 app.use(express.static('public'));
 
 

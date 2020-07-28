@@ -108,12 +108,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Main_(props) {
+  console.log('Main props', props);
   const [currentUser, setCurrentUser] = useState("");
   const classes = useStyles();
   const [email, setEmail] = useState("");
 
 
-  const { list, loadMemes } = props;
+  const { list, loadMemes, getUser, like } = props;
 
   useEffect(() => {
     loadMemes();
@@ -125,7 +126,7 @@ export default function Main_(props) {
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <MenuAppBar />
-          <MemeMaterial_ list={list} />
+          <MemeMaterial_ list={list} like={like} />
         </Paper>
         <Copyright />
       </main>
