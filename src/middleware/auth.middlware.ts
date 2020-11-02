@@ -8,7 +8,7 @@ module.exports = (req: any, res: Response, next: NextFunction) => {
         return next()
     }
 
-    console.log(req.method, 1);
+    console.log(req.method, 2);
     
 
     try {
